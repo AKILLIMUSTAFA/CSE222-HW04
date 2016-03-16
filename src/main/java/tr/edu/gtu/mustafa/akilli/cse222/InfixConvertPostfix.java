@@ -21,10 +21,12 @@ public class InfixConvertPostfix {
     private Stack<Character> stack;/* Stack for operators */
     private List<Character> postfixList;/* postfix form */
     private Stack<Character> tempStack;/* Stack for MULTIPLICATION and DIVISION*/
+    private Stack<Character> stackAssignment;/* Stack for Assignment*/
     private static final Character MULTIPLICATION = '*';
     private static final Character DIVISION = '/';
     private static final Character ADDITION = '+';
     private static final Character EXTRACTION = '-';
+    private static final Character ASSIGNMENT = '=';
 
 
     /**
@@ -36,7 +38,14 @@ public class InfixConvertPostfix {
         setStack();
         setPostfixList();
         setTempStack();
-        infixExpressionsConvertPostfixForm(InfixString);
+        setStackAssignment();
+        try{
+            infixExpressionsConvertPostfixForm(InfixString);
+        }catch (Exception e){
+            System.out.println("ERROR!! NOT FOUND ASSIGNMENT");
+            setPostfixList();
+        }
+
     }//end One Parameter Constructor
 
     /**
@@ -64,6 +73,18 @@ public class InfixConvertPostfix {
     private void setTempStack(){tempStack = new Stack<Character>();}//end setTempStack method
 
     /**
+     * Get Stack Assignment for MULTIPLICATION and DIVISION
+     *
+     * @return Stack for Assignment
+     */
+    private Stack<Character> getStackAssignment(){return stackAssignment;}//end getStackAssignment method
+
+    /**
+     * Set Stack for Assignment
+     */
+    private void setStackAssignment(){stackAssignment = new Stack<Character>();}//end setStackAssignment method
+
+    /**
      * Get Postfix String
      *
      * @return Postfix List
@@ -80,14 +101,17 @@ public class InfixConvertPostfix {
      *
      * @param InfixString Infix expressions
      */
-    private void infixExpressionsConvertPostfixForm(String InfixString){
-
-        
+    private void infixExpressionsConvertPostfixForm(String InfixString) throws Exception {
 
         /*Check all elements in String */
-        for(int index=2; index < InfixString.length(); ++index){
+        for(int index=0; index < InfixString.length(); ++index){
+
+            /* İf char is ASSIGNMENT */
+            if(InfixString.charAt(index) ==  ASSIGNMENT)
+                getStackAssignment().push(InfixString.charAt(index));
+
             /* İf char is MULTIPLICATION or DIVISION */
-            if(InfixString.charAt(index) ==  MULTIPLICATION ||  InfixString.charAt(index) ==  DIVISION){
+            else if(InfixString.charAt(index) ==  MULTIPLICATION ||  InfixString.charAt(index) ==  DIVISION){
 
                 /* if stack is not empty then push the char Stack*/
                 if(!getStack().empty())
@@ -157,6 +181,18 @@ public class InfixConvertPostfix {
         while(!getStack().empty()){
             getPostfixList().add(' ');
             getPostfixList().add(getStack().pop());
+        }
+
+        /* if expressions not have a assignment then throw exception*/
+        if(getStackAssignment().empty())
+            throw new Exception();
+
+        /* add assignment operator into PostFixList*/
+        else {
+            while (!getStackAssignment().empty()) {
+                getPostfixList().add(' ');
+                getPostfixList().add(getStackAssignment().pop());
+            }
         }
     }
 
