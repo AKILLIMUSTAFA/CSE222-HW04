@@ -18,9 +18,9 @@ import java.util.Stack;
  */
 public class InfixConvertPostfix {
 
-    private Stack<Character> stack;/* Stack for operators */
+    private Stack<Character> stackForAdditionAndExtraction;/* Stack for For Addition And Extraction */
     private List<Character> postfixList;/* postfix form */
-    private Stack<Character> tempStack;/* Stack for MULTIPLICATION and DIVISION*/
+    private Stack<Character> stackForMultiplicationAndDivision;/* Stack for MULTIPLICATION and DIVISION*/
     private Stack<Character> stackAssignment;/* Stack for Assignment*/
     private static final Character MULTIPLICATION = '*';
     private static final Character DIVISION = '/';
@@ -35,9 +35,9 @@ public class InfixConvertPostfix {
      * @param InfixString Infix expressions
      */
     public InfixConvertPostfix(String InfixString){
-        setStack();
+        setStackForAdditionAndExtraction();
         setPostfixList();
-        setTempStack();
+        setStackForMultiplicationAndDivision();
         setStackAssignment();
         try{
             infixExpressionsConvertPostfixForm(InfixString);
@@ -49,28 +49,30 @@ public class InfixConvertPostfix {
     }//end One Parameter Constructor
 
     /**
-     * Get Stack for operators
+     * Get Stack for Addition And Extraction
      *
-     * @return Stack for convert
+     * @return Stack for Addition And Extraction
      */
-    private Stack<Character> getStack(){return stack;}//end getStack method
+    private Stack<Character> getStackForAdditionAndExtraction(){return stackForAdditionAndExtraction;}//end getStackForAdditionAndExtraction method
 
     /**
-     * Set Stack for operators
+     * Set Stack For Addition And Extraction
      */
-    private void setStack(){stack = new Stack<Character>();}//end setStack method
+    private void setStackForAdditionAndExtraction(){
+        stackForAdditionAndExtraction = new Stack<Character>();}//end setStackForAdditionAndExtraction method
 
     /**
-     * Get Temp Stack for MULTIPLICATION and DIVISION
+     * Get Stack for MULTIPLICATION and DIVISION
      *
-     * @return Temp Stack for MULTIPLICATION and DIVISION
+     * @return Stack for MULTIPLICATION and DIVISION
      */
-    private Stack<Character> getTempStack(){return tempStack;}//end getTempStack method
+    private Stack<Character> getStackForMultiplicationAndDivision(){return stackForMultiplicationAndDivision;}//end getStackForMultiplicationAndDivision method
 
     /**
-     * Set Temp for MULTIPLICATION and DIVISION
+     * Set Stack for MULTIPLICATION and DIVISION
      */
-    private void setTempStack(){tempStack = new Stack<Character>();}//end setTempStack method
+    private void setStackForMultiplicationAndDivision(){
+        stackForMultiplicationAndDivision = new Stack<Character>();}//end setStackForMultiplicationAndDivision method
 
     /**
      * Get Stack Assignment for MULTIPLICATION and DIVISION
@@ -113,39 +115,20 @@ public class InfixConvertPostfix {
             /* İf char is MULTIPLICATION or DIVISION */
             else if(InfixString.charAt(index) ==  MULTIPLICATION ||  InfixString.charAt(index) ==  DIVISION){
 
-                /* if stack is not empty then push the char Stack*/
-                if(!getStack().empty())
-                    getStack().push(InfixString.charAt(index));
-
-                /* if stack is empty then push the char tempStack*/
-                else
-                    getTempStack().push(InfixString.charAt(index));
+                getStackForMultiplicationAndDivision().push(InfixString.charAt(index));
             }
 
             /* İf char is ADDITION or EXTRACTION */
             else if(InfixString.charAt(index) ==  ADDITION ||  InfixString.charAt(index) ==  EXTRACTION){
 
-                /* if stack is empty then push the char Stack*/
-                if(getStack().empty())
-                    getStack().push(InfixString.charAt(index));
+                /* if stackForAdditionAndExtraction is empty then push the char Stack*/
+                if(getStackForAdditionAndExtraction().empty())
+                    getStackForAdditionAndExtraction().push(InfixString.charAt(index));
 
-                /* if stack is not empty */
+                /* if stackForAdditionAndExtraction is not empty */
                 else{
-                    /* if last element in stack is MULTIPLICATION or DIVISION */
-                    if(getStack().peek() ==  MULTIPLICATION ||  getStack().peek() ==  DIVISION){
-                        /* Do Stack is Empty. All element in Stack add into PostfixList */
-                        while(!getStack().empty()){
-                            getPostfixList().add(getStack().pop());
-                            if(!getStack().empty())
-                                getPostfixList().add(' ');
-                        }
-
-                        /* add into char in stack */
-                        getStack().push(InfixString.charAt(index));
-                    }
-                    /* if last element in stack is not MULTIPLICATION or DIVISION then push the char Stack*/
-                    else
-                        getStack().push(InfixString.charAt(index));
+                    getPostfixList().add(getStackForAdditionAndExtraction().pop());
+                    getStackForAdditionAndExtraction().push(InfixString.charAt(index));
                 }
             }
 
@@ -162,9 +145,9 @@ public class InfixConvertPostfix {
                        if(InfixString.charAt(index)!= ' ') {
                            getPostfixList().add(InfixString.charAt(index));
 
-                           while (!getTempStack().empty()) {
+                           while (!getStackForMultiplicationAndDivision().empty()) {
                                getPostfixList().add(' ');
-                               getPostfixList().add(getTempStack().pop());
+                               getPostfixList().add(getStackForMultiplicationAndDivision().pop());
                            }
                        }
                     }
@@ -173,14 +156,13 @@ public class InfixConvertPostfix {
                 else{
                     getPostfixList().add(InfixString.charAt(index));
                 }
-
             }
         }
 
         /* Do Stack is Empty. All element in Stack add into PostfixList */
-        while(!getStack().empty()){
+        while(!getStackForAdditionAndExtraction().empty()){
             getPostfixList().add(' ');
-            getPostfixList().add(getStack().pop());
+            getPostfixList().add(getStackForAdditionAndExtraction().pop());
         }
 
         /* if expressions not have a assignment then throw exception*/
