@@ -1,5 +1,6 @@
 package tr.edu.gtu.mustafa.akilli.cse222;
 
+import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -34,16 +35,16 @@ public class InfixConvertPostfix {
      *
      * @param InfixString Infix expressions
      */
-    public InfixConvertPostfix(String InfixString){
+    public InfixConvertPostfix(String InfixString) throws MySyntaxErrorException{
         setStackForAdditionAndExtraction();
         setPostfixList();
         setStackForMultiplicationAndDivision();
         setStackAssignment();
         try{
             infixExpressionsConvertPostfixForm(InfixString);
-        }catch (Exception e){
-            System.out.println("ERROR!! NOT FOUND ASSIGNMENT");
+        }catch (MySyntaxErrorException e){
             setPostfixList();
+            throw new MySyntaxErrorException();
         }
 
     }//end One Parameter Constructor
@@ -91,7 +92,7 @@ public class InfixConvertPostfix {
      *
      * @return Postfix List
      */
-    public List<Character>  getPostfixList(){return postfixList;}//end getPostfixString method
+    private List<Character>  getPostfixList(){return postfixList;}//end getPostfixString method
 
     /**
      * Set Postfix String
@@ -99,11 +100,23 @@ public class InfixConvertPostfix {
     private void setPostfixList(){postfixList = new LinkedList<Character>();}//end setPostfixString method
 
     /**
+     * Get Postfix To String
+     *
+     * @return Postfix To String
+     */
+    public String getPostfixToString(){
+        StringBuilder postfix = new StringBuilder();
+        for(int index =0; index < getPostfixList().size(); ++index)
+            postfix.append(getPostfixList().get(index));
+        return postfix.toString();
+    }//end getPostfixToString method
+
+    /**
      * Infix Expressions Convert Postfix Form
      *
      * @param InfixString Infix expressions
      */
-    private void infixExpressionsConvertPostfixForm(String InfixString) throws Exception {
+    private void infixExpressionsConvertPostfixForm(String InfixString) throws MySyntaxErrorException {
 
         /*Check all elements in String */
         for(int index=0; index < InfixString.length(); ++index){
@@ -167,7 +180,7 @@ public class InfixConvertPostfix {
 
         /* if expressions not have a assignment then throw exception*/
         if(getStackAssignment().empty())
-            throw new Exception();
+            throw new MySyntaxErrorException();
 
         /* add assignment operator into PostFixList*/
         else {
@@ -176,7 +189,7 @@ public class InfixConvertPostfix {
                 getPostfixList().add(getStackAssignment().pop());
             }
         }
-    }
+    }//end infixExpressionsConvertPostfixForm method
 
 
 }
