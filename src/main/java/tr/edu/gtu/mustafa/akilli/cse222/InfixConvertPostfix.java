@@ -1,9 +1,7 @@
 package tr.edu.gtu.mustafa.akilli.cse222;
 
-import java.util.EmptyStackException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import javax.swing.text.html.HTMLDocument;
+import java.util.*;
 
 /**
  * HW04_131044017_Mustafa_Akilli
@@ -28,7 +26,7 @@ public class InfixConvertPostfix {
     private static final Character ADDITION = '+';
     private static final Character EXTRACTION = '-';
     private static final Character ASSIGNMENT = '=';
-
+    private static final Character EMPTYCHARACTER = ' ';
 
     /**
      * One Parameter Constructor
@@ -42,6 +40,7 @@ public class InfixConvertPostfix {
         setStackAssignment();
         try{
             infixExpressionsConvertPostfixForm(InfixString);
+            controlPostfix();
         }catch (MySyntaxErrorException e){
             setPostfixList();
             throw new MySyntaxErrorException();
@@ -172,6 +171,11 @@ public class InfixConvertPostfix {
             }
         }
 
+        while (!getStackForMultiplicationAndDivision().empty()) {
+            getPostfixList().add(' ');
+            getPostfixList().add(getStackForMultiplicationAndDivision().pop());
+        }
+
         /* Do Stack is Empty. All element in Stack add into PostfixList */
         while(!getStackForAdditionAndExtraction().empty()){
             getPostfixList().add(' ');
@@ -191,5 +195,67 @@ public class InfixConvertPostfix {
         }
     }//end infixExpressionsConvertPostfixForm method
 
+    /**
+     * Control Postfix form is illegal or legal
+     *
+     * @return if postfix form is illegal then throw MySyntaxErrorException, otherwise return true.
+     */
+    public boolean controlPostfix() throws MySyntaxErrorException{
 
+        /* İf left side is a number then throw MySyntaxErrorException */
+        try {
+            int foo = Integer.parseInt(String.valueOf(getPostfixList().get(0)));
+            throw new MySyntaxErrorException();
+        }catch (NumberFormatException e){}
+
+
+
+
+
+
+
+
+
+
+        /* Second char isn't a assignment operator then throw MySyntaxErrorException */
+        if(getPostfixToString().charAt(getPostfixToString().length()-1) != ASSIGNMENT)
+            throw new MySyntaxErrorException();
+
+        /* Check the right of assignment operator */
+        Stack<Character> stack = new Stack<Character>();
+
+        /* Check all elements in Postfix List if the wrong something then throw MySyntaxErrorException*/
+        Iterator<Character> iter = (Iterator<Character>) getPostfixList().iterator();
+        Character character;
+
+        while(iter.hasNext()){
+
+            character = iter.next();
+
+            if(character != EMPTYCHARACTER) {
+                /* if char a operand then push into stack */
+                if (character != MULTIPLICATION && character != DIVISION && character != ADDITION &&
+                        character != EXTRACTION && character != ASSIGNMENT) {
+                    stack.push(character);
+                }
+                /* if char a operator then pop into stack 2 variables*/
+                else {
+                    try {
+                        stack.pop();
+
+                        if(character == ASSIGNMENT)
+                            stack.pop();
+
+                    } catch (EmptyStackException e) {
+                        throw new MySyntaxErrorException();
+                    }
+                }
+            }
+
+        }
+
+
+
+        return true;
+    }
 }

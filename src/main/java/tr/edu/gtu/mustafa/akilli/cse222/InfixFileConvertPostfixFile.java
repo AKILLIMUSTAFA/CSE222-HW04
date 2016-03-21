@@ -77,20 +77,28 @@ public class InfixFileConvertPostfixFile {
                 /* First Line */
                 line = bufferedReader.readLine();
 
+                /* Do loop until line is null */
                 while (line != null) {
 
+                    /* if command is print */
                     if (line.substring(PRINT_FIRST_LETTER,PRINT_LAST_LETTER).compareTo("print") == STRING_EQUAL ||
                             line.substring(PRINT_FIRST_LETTER, PRINT_LAST_LETTER).compareTo("Print") == STRING_EQUAL) {
                         bufferedWriter.write(line);
                     } else {
+
+                        /* Infix Convert Postfix */
                         try{
                             setInfixConvertPostfix(line);
-                        }catch (Exception e){
+                        }catch (MySyntaxErrorException e){
                             System.out.println("SYNTAX ERROR: " + line);
                             foundSyntacError = FOUND_SYNTAX_ERROR;
                         }
 
-                        bufferedWriter.write(getInfixConvertPostfix().getPostfixToString());
+                        /* Write postfix form into file */
+                        try{
+                            bufferedWriter.write(getInfixConvertPostfix().getPostfixToString());
+                        }catch (NullPointerException e){}
+
                     }
 
                     /* Next Line */
@@ -127,12 +135,4 @@ public class InfixFileConvertPostfixFile {
         }catch(IOException ex) {System.out.println("Error writing to file: "+ fileName);}
 
     }//end postfixConverter method
-
 }
-
-
-
-
-
-
-
