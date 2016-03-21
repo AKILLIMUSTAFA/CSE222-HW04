@@ -1,4 +1,6 @@
-package tr.edu.gtu.mustafa.akilli.cse222;
+package tr.edu.gtu.mustafa.akilli.cse222.PostfixConverter;
+
+import tr.edu.gtu.mustafa.akilli.cse222.Exception.MySyntaxErrorException;
 
 import java.io.*;
 

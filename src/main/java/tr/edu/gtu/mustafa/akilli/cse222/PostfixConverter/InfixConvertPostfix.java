@@ -1,6 +1,7 @@
-package tr.edu.gtu.mustafa.akilli.cse222;
+package tr.edu.gtu.mustafa.akilli.cse222.PostfixConverter;
 
-import javax.swing.text.html.HTMLDocument;
+import tr.edu.gtu.mustafa.akilli.cse222.Exception.MySyntaxErrorException;
+
 import java.util.*;
 
 /**
@@ -33,7 +34,7 @@ public class InfixConvertPostfix {
      *
      * @param InfixString Infix expressions
      */
-    public InfixConvertPostfix(String InfixString) throws MySyntaxErrorException{
+    public InfixConvertPostfix(String InfixString) throws MySyntaxErrorException {
         setStackForAdditionAndExtraction();
         setPostfixList();
         setStackForMultiplicationAndDivision();
@@ -96,7 +97,7 @@ public class InfixConvertPostfix {
     /**
      * Set Postfix String
      */
-    private void setPostfixList(){postfixList = new LinkedList<Character>();}//end setPostfixString method
+    private void setPostfixList(){postfixList = new Stack<Character>();}//end setPostfixString method
 
     /**
      * Get Postfix To String
@@ -207,15 +208,6 @@ public class InfixConvertPostfix {
             int foo = Integer.parseInt(String.valueOf(getPostfixList().get(0)));
             throw new MySyntaxErrorException();
         }catch (NumberFormatException e){}
-
-
-
-
-
-
-
-
-
 
         /* Second char isn't a assignment operator then throw MySyntaxErrorException */
         if(getPostfixToString().charAt(getPostfixToString().length()-1) != ASSIGNMENT)

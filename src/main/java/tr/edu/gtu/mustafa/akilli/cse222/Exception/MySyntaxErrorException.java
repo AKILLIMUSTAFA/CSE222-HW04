@@ -1,4 +1,4 @@
-package tr.edu.gtu.mustafa.akilli.cse222;
+package tr.edu.gtu.mustafa.akilli.cse222.Exception;
 
 /**
  * HW04_131044017_Mustafa_Akilli
