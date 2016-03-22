@@ -19,6 +19,7 @@ import java.io.*;
 public class InfixFileConvertPostfixFile {
 
     private InfixConvertPostfix infixConvertPostfix;/* Infix expressions convert postfix form */
+    private static final String POSTFIX_FILE_NAME = "postfix.txt";
     private static final int FOUND_SYNTAX_ERROR = 1;
     private static final int NO_FOUND_SYNTAX_ERROR = 0;
     private static final int PRINT_FIRST_LETTER = 0;
@@ -58,7 +59,7 @@ public class InfixFileConvertPostfixFile {
      */
     private void postfixConverter(String infixFileName){
 
-        String fileName = "postfix.txt";/* The name of the file to open. */
+        String fileName = POSTFIX_FILE_NAME;/* The name of the file to write. */
         String line = null; /* For the lines in file */
         int foundSyntacError = NO_FOUND_SYNTAX_ERROR;
 
@@ -117,7 +118,7 @@ public class InfixFileConvertPostfixFile {
             } catch (FileNotFoundException ex) {
                 System.out.println("File didn't open: " + infixFileName);
             } catch (IOException ex) {
-                System.out.println("File didn't reading " + infixFileName);
+                System.out.println("File didn't reading: " + infixFileName);
             }
 
             /* Close File */
@@ -131,7 +132,7 @@ public class InfixFileConvertPostfixFile {
                 BufferedWriter bufferedWriterEmpty = new BufferedWriter(fileWriterEmpty);
 
                 /* Close File */
-                bufferedWriter.close();
+                bufferedWriterEmpty.close();
             }
 
         }catch(IOException ex) {System.out.println("Error writing to file: "+ fileName);}

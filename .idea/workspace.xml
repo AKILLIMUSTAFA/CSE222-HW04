@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dcf1ff33-f404-4c6f-a354-d5defb2a86d9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixConvertAssembly.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyDivisionByZeroException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyOutOfRegisterLimitException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyUndefinedVariableUsageException.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/tr/edu/gtu/mustafa/akilli/cse222/InfixConvertPostfix.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/tr/edu/gtu/mustafa/akilli/cse222/InfixFileConvertPostfixFile.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/tr/edu/gtu/mustafa/akilli/cse222/MySyntaxErrorException.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/InfixConvertPostfix.java" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixConvertPostfix.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/InfixFileConvertPostfixFile.java" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/MySyntaxErrorException.java" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MySyntaxErrorException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/tr/edu/gtu/mustafa/akilli/cse222/App.class" afterPath="$PROJECT_DIR$/target/classes/tr/edu/gtu/mustafa/akilli/cse222/App.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyAlreadyDefinedVariableUsageException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixConvertAssembly.java" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixFileConvertAssemblyFile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/App.java" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/App.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java" afterPath="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java" />
     </list>
     <ignored path="CSE222 HW04.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,27 +38,57 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PostfixConvertAssembly.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixConvertAssembly.java">
+      <file leaf-file-name="InfixFileConvertPostfixFile.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.69086653">
-              <caret line="133" column="58" selection-start-line="133" selection-start-column="58" selection-end-line="133" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="91" column="24" selection-start-line="91" selection-start-column="24" selection-end-line="91" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PostfixFileConvertAssemblyFile.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixFileConvertAssemblyFile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.038641687">
+              <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="docComment;method#PostfixFileConvertAssemblyFile#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#PostfixFileConvertAssemblyFile#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#setStackOperands#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#getStackOperands#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#setDefinedVariables#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#getDefinedVariables#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#setVariablesDefaultValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#setVariablesDefaultValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#setVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#setVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#getVariablesValueList#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#getVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#getVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#addVariableInToDefinedVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#addVariableInToDefinedVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#setNumberOfRegistersUsed#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#setNumberOfRegistersUsed#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#getNumberOfRegistersUsed#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#registerNameVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#registerNameVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#outOfRegisterLimit#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="method#outOfRegisterLimit#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+                <element signature="docComment;method#PostfixFormFileConvertAssemblyInstructionsFile#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InfixConvertPostfix.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixConvertPostfix.java">
+      <file leaf-file-name="MyDivisionByZeroException.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyDivisionByZeroException.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#8048#8059#0" expanded="true" />
-              </folding>
+              <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="20" selection-end-column="41" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -101,7 +122,6 @@
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/InfixConvertPostfix.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixFormConvertAssemblyInstructions.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConvertAssembly.java" />
-        <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MySyntaxErrorException.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/DivisionByZero.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyDivisionByZeroException.java" />
@@ -109,6 +129,9 @@
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyOutOfRegisterLimitException.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyUndefinedVariableUsageException.java" />
         <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixConvertAssembly.java" />
+        <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyAlreadyDefinedVariableUsageException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixFileConvertAssemblyFile.java" />
       </list>
     </option>
   </component>
@@ -722,7 +745,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="17" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -906,35 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="18" selection-start-line="61" selection-start-column="15" selection-end-line="61" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixConvertPostfix.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8048#8059#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyUndefinedVariableUsageException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.36065573">
@@ -959,20 +953,124 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyDivisionByZeroException.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixConvertPostfix.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36065573">
-          <caret line="14" column="63" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.618267">
+          <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8048#8059#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixConvertAssembly.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/io/FileWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.69086653">
-          <caret line="133" column="58" selection-start-line="133" selection-start-column="58" selection-end-line="133" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="28" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/lang/Throwable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3325527">
+          <caret line="632" column="16" selection-start-line="632" selection-start-column="16" selection-end-line="632" selection-end-column="16" />
+          <folding>
+            <element signature="e#26222#26223#0" expanded="false" />
+            <element signature="e#26265#26266#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/io/FileOutputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3325527">
+          <caret line="99" column="11" selection-start-line="99" selection-start-column="11" selection-end-line="99" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/PostfixConverter/InfixFileConvertPostfixFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="91" column="24" selection-start-line="91" selection-start-column="24" selection-end-line="91" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3325527">
+          <caret line="917" column="19" selection-start-line="917" selection-start-column="19" selection-end-line="917" selection-end-column="19" />
+          <folding>
+            <element signature="e#33338#33339#0" expanded="true" />
+            <element signature="e#33375#33376#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/util/ListIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6405152">
+          <caret line="119" column="20" selection-start-line="119" selection-start-column="20" selection-end-line="119" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyDivisionByZeroException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="20" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/Exception/MyAlreadyDefinedVariableUsageException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48946136">
+          <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/tr/edu/gtu/mustafa/akilli/cse222/AssemblyConverter/PostfixFileConvertAssemblyFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.038641687">
+          <caret line="266" column="0" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="docComment;method#PostfixFileConvertAssemblyFile#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#PostfixFileConvertAssemblyFile#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#setStackOperands#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#getStackOperands#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#setDefinedVariables#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#getDefinedVariables#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#setVariablesDefaultValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#setVariablesDefaultValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#setVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#setVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#getVariablesValueList#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#getVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#getVariableValue#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#addVariableInToDefinedVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#addVariableInToDefinedVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#setNumberOfRegistersUsed#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#setNumberOfRegistersUsed#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#getNumberOfRegistersUsed#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#registerNameVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#registerNameVariable#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#outOfRegisterLimit#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="method#outOfRegisterLimit#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
+            <element signature="docComment;method#PostfixFormFileConvertAssemblyInstructionsFile#0;class#PostfixFileConvertAssemblyFile#0" expanded="false" />
           </folding>
         </state>
       </provider>
