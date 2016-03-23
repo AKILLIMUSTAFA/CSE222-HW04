@@ -20,8 +20,8 @@ public class Registers {
     /**
      * One parameter Constructor
      *
-     * @param newRegisterNameSequence
-     * @param newVariableName
+     * @param newRegisterNameSequence new Register Name Sequence
+     * @param newVariableName new Variable Name
      */
     public Registers(Integer newRegisterNameSequence, String newVariableName){
 
@@ -52,35 +52,35 @@ public class Registers {
     /**
      * Get Register Name
      *
-     * @return
+     * @return getRegisterName
      */
     public String getRegisterName(){return registerName;}
 
     /**
      * Set Register Name Sequence
      *
-     * @param newRegisterNameSequence
+     * @param newRegisterNameSequence new Register Name Sequence
      */
     public void setRegisterNameSequence(Integer newRegisterNameSequence){registerNameSequence = newRegisterNameSequence;}
 
     /**
      * Get Register Name Sequence
      *
-     * @return
+     * @return getRegisterNameSequence
      */
     public Integer getRegisterNameSequence(){return registerNameSequence;}
 
     /**
      * Set Variable Name
      *
-     * @param newVariableName
+     * @param newVariableName new Variable Name
      */
     public void setVariableName(String newVariableName){variableName = newVariableName;}
 
     /**
      * Get Variable Name
      *
-     * @return
+     * @return getVariableName
      */
     public String getVariableName(){return variableName;}
 }
