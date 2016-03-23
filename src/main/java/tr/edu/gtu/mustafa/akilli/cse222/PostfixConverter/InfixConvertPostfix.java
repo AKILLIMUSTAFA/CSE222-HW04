@@ -243,10 +243,7 @@ public class InfixConvertPostfix {
                     }
                 }
             }
-
         }
-
-
 
         return true;
     }

@@ -1,12 +1,9 @@
 package tr.edu.gtu.mustafa.akilli.cse222.AssemblyConverter;
 
-import tr.edu.gtu.mustafa.akilli.cse222.Exception.MyAlreadyDefinedVariableUsageException;
-import tr.edu.gtu.mustafa.akilli.cse222.Exception.MyDivisionByZeroException;
-import tr.edu.gtu.mustafa.akilli.cse222.Exception.MyOutOfRegisterLimitException;
-import tr.edu.gtu.mustafa.akilli.cse222.Exception.MyUndefinedVariableUsageException;
+import tr.edu.gtu.mustafa.akilli.cse222.Exception.*;
+import tr.edu.gtu.mustafa.akilli.cse222.Registers;
 
 import java.io.*;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Stack;
@@ -25,8 +22,9 @@ import java.util.Stack;
  */
 public class PostfixFileConvertAssemblyFile {
 
-    private Stack<Character> stackOperands;/* Stack for Assignment*/
-    private List<Character> definedVariables; /* Defined Variables */
+    private Stack<String> stackOperands;/* Stack for Assignment*/
+    private List<Registers> definedVariables; /* Defined Variables */
+    private List<Boolean>  registerUsageList; /* Which register used */
     private List<Integer> variablesValue; /* Value of variables */
     private int numberOfRegistersUsed; /* how many register used by the user */
     private static final String ASSEMBLY_FILE_NAME = "output.asm";
@@ -50,6 +48,8 @@ public class PostfixFileConvertAssemblyFile {
     public PostfixFileConvertAssemblyFile(String postfixFileName){
         setStackOperands();
         setDefinedVariables();
+        setVariablesDefaultValue();
+        setRegisterUsageList();
         setNumberOfRegistersUsed(BEGINING_OF_THE_NUMBER_OF_REGISTERS_USED);
         PostfixFormFileConvertAssemblyInstructionsFile(postfixFileName);
     }//end One Parameter Constructor
@@ -57,26 +57,60 @@ public class PostfixFileConvertAssemblyFile {
     /**
      * Set Stack Operands
      */
-    private void setStackOperands(){stackOperands = new Stack<Character>();}//end setStackOperands method
+    private void setStackOperands(){stackOperands = new Stack<String>();}//end setStackOperands method
 
     /**
      * Get Stack Operands
      *
      * @return Stack of Operands
      */
-    private Stack<Character> getStackOperands(){return stackOperands;}//end getStackOperands method
+    private Stack<String> getStackOperands(){return stackOperands;}//end getStackOperands method
+
+    /**
+     * Set Register Usage List
+     */
+    private void setRegisterUsageList(){
+        registerUsageList = new Stack<Boolean>();
+
+        registerUsageList.add(false);/*$t0*/
+        registerUsageList.add(false);/*$t1*/
+        registerUsageList.add(false);/*$t2*/
+        registerUsageList.add(false);/*$t3*/
+        registerUsageList.add(false);/*$t4*/
+        registerUsageList.add(false);/*$t5*/
+        registerUsageList.add(false);/*$t6*/
+        registerUsageList.add(false);/*$t7*/
+        registerUsageList.add(false);/*$t8*/
+    }
+
+    /**
+     * Set One Register Usage
+     *
+     * @param registerNameSequence
+     * @param usage
+     */
+    private void setOneRegisterUsage(Integer registerNameSequence, boolean usage){
+        registerUsageList.set(registerNameSequence, usage);
+    }
+
+    /**
+     * Get Register Usage List
+     *
+     * @return
+     */
+    private List<Boolean> getRegisterUsageList(){return registerUsageList;}
 
     /**
      *  Set Defined Variables
      */
-    private void setDefinedVariables(){definedVariables = new Stack<Character>();}//end setDefinedVariables method
+    private void setDefinedVariables(){definedVariables = new Stack<Registers>();}//end setDefinedVariables method
 
     /**
      * Get Defined Variables
      *
      * @return List of defined Variables
      */
-    private List<Character> getDefinedVariables(){return definedVariables;}//end getDefinedVariables method
+    private List<Registers> getDefinedVariables(){return definedVariables;}//end getDefinedVariables method
 
     /**
      * Set Variables Default Value
@@ -98,7 +132,7 @@ public class PostfixFileConvertAssemblyFile {
     private void setVariableValue(String registerName, int newValue) throws MyUndefinedVariableUsageException{
         boolean exist = true;
 
-        switch (registerName.charAt(registerName.length())){
+        switch (registerName.charAt(registerName.length()-1)){
             case '0':getVariablesValueList().set(0,newValue);break;
             case '1':getVariablesValueList().set(1,newValue);break;
             case '2':getVariablesValueList().set(2,newValue);break;
@@ -132,7 +166,7 @@ public class PostfixFileConvertAssemblyFile {
     private int getVariableValue(String registerName){
         int  valueOfRegister = 0;
 
-        switch (registerName.charAt(registerName.length())){
+        switch (registerName.charAt(registerName.length()-1)){
             case '0':
                 valueOfRegister = variablesValue.get(0);
                 break;
@@ -171,13 +205,24 @@ public class PostfixFileConvertAssemblyFile {
      * @param newVariable
      * @throws MyAlreadyDefinedVariableUsageException
      */
-    private void addVariableInToDefinedVariable(Character newVariable) throws MyAlreadyDefinedVariableUsageException{
+    private void addVariableInToDefinedVariable(String newVariable) throws MyAlreadyDefinedVariableUsageException,MyOutOfRegisterLimitException{
         try{
-            registerNameVariable(newVariable);
+            registeredNameVariable(newVariable);/* Check Already Defined Variable */
             throw new MyAlreadyDefinedVariableUsageException();
         }catch (MyUndefinedVariableUsageException e){
-            setNumberOfRegistersUsed(getNumberOfRegistersUsed()+1);
-            getDefinedVariables().add(newVariable);
+
+            /* Check Register Limit */
+            setNumberOfRegistersUsed(getNumberOfRegistersUsed()+1); /* increase the Number Of Registers Used */
+            outOfRegisterLimit();
+
+            /* Add new Variable into defined variable list */
+            for(int index=0; index<9 ;++index){
+                if(getRegisterUsageList().get(index) == false){
+                    getDefinedVariables().add(new Registers(index,newVariable));
+                    setOneRegisterUsage(index,true);
+                    break;
+                }
+            }
         }
     }//end addVariableInToDefinedVariable method
 
@@ -203,23 +248,19 @@ public class PostfixFileConvertAssemblyFile {
      * @param variableName
      * @return if variable defined then return registerName
      */
-    private String registerNameVariable(Character variableName) throws MyUndefinedVariableUsageException{
+    private String registeredNameVariable(String variableName) throws MyUndefinedVariableUsageException{
         String registerName = new String();
         int index;
         boolean found = false;
-        ListIterator<Character> iter = getDefinedVariables().listIterator();
-        Character character;
+        ListIterator<Registers> iter = getDefinedVariables().listIterator();
+        Registers registers;
 
         while (iter.hasNext()){
-            character = iter.next();
-            if(character == variableName){
+            registers = iter.next();
+            if(registers.getVariableName().compareTo(variableName) == 0){
                 found = true;
-                if(!iter.hasNext())
-                    index = getDefinedVariables().size() - 1;
-                else
-                    index = iter.nextIndex()-1;
 
-                switch (index){
+                switch (registers.getRegisterNameSequence()){
                     case 0:registerName = "$t0";break;
                     case 1:registerName = "$t1";break;
                     case 2:registerName = "$t2";break;
@@ -252,6 +293,98 @@ public class PostfixFileConvertAssemblyFile {
         return false;
     }
 
+    /**
+     * Is It Only Assignment Operator
+     *
+     * @param line
+     * @return if is It Only Assignment Operator then return true, otherwise return false
+     */
+    private boolean isItOnlyAssignmentOperator(String line){
+
+        int index=2;
+        boolean biggerThenOneNumber = false;
+
+        try {
+            while(true) {
+                if(biggerThenOneNumber){
+                    if(line.charAt(index) == '=')
+                        return true;
+                }
+
+                if(line.charAt(index) != ' ') {
+                    int foo = Integer.parseInt(String.valueOf(line.charAt(index)));
+                    ++index;
+                }else{
+                    biggerThenOneNumber = true;
+                    ++index;
+                }
+            }
+        }catch (NumberFormatException q){return false;}
+    }
+
+    /**
+     * Find the number value in the line
+     *
+     * @param line
+     * @param index start of number
+     * @return number value
+     */
+    private int giveTheNumber(String line, int index){
+
+        int number = 0;
+
+        try {
+            while(true){
+                int foo = Integer.parseInt(String.valueOf(line.charAt(index)));
+                number = number*10;
+                number += foo;
+                ++index;
+            }
+
+        }catch (NumberFormatException e){}
+        catch (StringIndexOutOfBoundsException t){}
+        finally {
+            --index;
+            return number;
+        }
+    }
+
+    /**
+     * Digit Number Of Given Number
+     *
+     * @return digit Number Of Given Number
+     */
+    private int digitNumberOfGivenNumber(int number){
+        int index = 0;
+
+        if(number%10>0){
+            number = number%10;
+            ++index;
+        }
+
+        return index++;
+    }
+
+    /**
+     * Remove the variable and free register
+     *
+     * @param variableName
+     */
+    private void freeRegister(String variableName){
+
+        ListIterator<Registers> iter = getDefinedVariables().listIterator();
+        Registers registers;
+
+        while (iter.hasNext()) {
+            registers = iter.next();
+            if (registers.getVariableName() == variableName) {
+                setOneRegisterUsage(registers.getRegisterNameSequence(),false);
+                getDefinedVariables().remove(registers);
+                setNumberOfRegistersUsed(getNumberOfRegistersUsed()-1);
+                break;
+            }
+        }
+    }
 
     /**
      *  Convert each operation to assembly instructions and registers.
@@ -268,6 +401,9 @@ public class PostfixFileConvertAssemblyFile {
 
         String fileName = ASSEMBLY_FILE_NAME;/* The name of the file to write. */
         String line = null; /* For the lines in file */
+        boolean foundError = false;
+        List<String> tempVariables = new Stack<String>();
+        int tempNameIndex = 0;
 
         try {
             /* FileWriter write text files */
@@ -289,16 +425,305 @@ public class PostfixFileConvertAssemblyFile {
                 /* Do loop until line is null */
                 while (line != null) {
 
-                    /* if command is print */
-                    if (line.substring(PRINT_FIRST_LETTER,PRINT_LAST_LETTER).compareTo("print") == STRING_EQUAL ||
-                            line.substring(PRINT_FIRST_LETTER, PRINT_LAST_LETTER).compareTo("Print") == STRING_EQUAL) {
+                    if(isItOnlyAssignmentOperator(line)){
 
-                        bufferedWriter.write("syscall\n");
-                    } else {
+                        try {
+                            addVariableInToDefinedVariable(String.valueOf(line.charAt(0))); /* Add Variable */
+                        } catch (MyAlreadyDefinedVariableUsageException e) {}
 
-                        /* Postfix Convert Postfix */
+                        int foo = giveTheNumber(line, 2);
+                        setVariableValue(registeredNameVariable(String.valueOf(line.charAt(0))), foo);
+                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(line.charAt(0))) + ", " + foo);
+                        bufferedWriter.newLine();
 
                     }
+
+                    else{
+                        /* if command is print */
+                        if (line.substring(PRINT_FIRST_LETTER, PRINT_LAST_LETTER).compareTo("print") == STRING_EQUAL ||
+                                line.substring(PRINT_FIRST_LETTER, PRINT_LAST_LETTER).compareTo("Print") == STRING_EQUAL) {
+                            String ch = registeredNameVariable(String.valueOf(line.charAt(line.length() - 1)));
+                            bufferedWriter.write("move \t$a0, " + ch);
+                            bufferedWriter.newLine();
+                            bufferedWriter.write("li \t$v0, " + getVariableValue(ch));
+                            bufferedWriter.newLine();
+                            bufferedWriter.write("syscall");
+                            bufferedWriter.newLine();
+                        } else {
+
+
+
+
+                            /*Check all elements in String */
+                            for (int index = 0; index < line.length(); ++index) {
+
+                                /* For the left hand of the assigned */
+                                if (index == 0) {
+                                    try {
+                                        getStackOperands().push(String.valueOf(line.charAt(index)));
+                                        addVariableInToDefinedVariable(String.valueOf(line.charAt(index))); /* Add Variable */
+                                    } catch (MyAlreadyDefinedVariableUsageException e) {}
+                                }
+
+                                // if char a assignment */
+                                else if (line.charAt(index) == ASSIGNMENT) {
+                                    String rightHand = getStackOperands().pop();
+                                    String leftHand = getStackOperands().pop();
+
+                                    /* Check This Variables already register */
+                                    registeredNameVariable(leftHand);
+
+                                    try {
+                                        registeredNameVariable(rightHand);
+                                    } catch (MyUndefinedVariableUsageException e) {
+                                        /* İf left side is a number then register, otherwise throw MyUndefinedVariableUsageException*/
+                                        try {
+                                            int foo = Integer.parseInt(String.valueOf(rightHand));
+                                            setVariableValue(registeredNameVariable(leftHand), foo);
+                                            bufferedWriter.write("li \t" + registeredNameVariable(leftHand) + ", " + foo);
+                                            bufferedWriter.newLine();
+                                        } catch (NumberFormatException q) {
+                                            throw new MyUndefinedVariableUsageException();
+                                        }
+                                    }
+
+                                    bufferedWriter.newLine();
+                                    bufferedWriter.write("move \t" + registeredNameVariable(leftHand) + "," + registeredNameVariable(rightHand));
+                                    bufferedWriter.newLine();
+                                    setVariableValue(registeredNameVariable(leftHand), getVariableValue(registeredNameVariable(rightHand)));
+
+                                }
+
+                                // if char a MULTIPLICATION */
+                                else if (line.charAt(index) == MULTIPLICATION) {
+                                    String rightHand = getStackOperands().pop();
+                                    String leftHand = getStackOperands().pop();
+                                    String newVariable;
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(String.valueOf(leftHand));
+                                        tempVariables.add(leftHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(leftHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(leftHand);
+                                    }
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(String.valueOf(rightHand));
+                                        tempVariables.add(rightHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(rightHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(rightHand);
+                                    }
+
+                                    String stringFooTwo = String.valueOf("temp" + (++tempNameIndex));
+                                    tempVariables.add(stringFooTwo);
+                                    addVariableInToDefinedVariable(stringFooTwo);
+
+                                    bufferedWriter.write("mult \t" + registeredNameVariable(leftHand) + "," + registeredNameVariable(rightHand));
+                                    bufferedWriter.newLine();
+                                    bufferedWriter.write("mflo \t" + registeredNameVariable(stringFooTwo));
+                                    bufferedWriter.newLine();
+                                    setVariableValue(registeredNameVariable(stringFooTwo),
+                                            getVariableValue(registeredNameVariable(rightHand))*getVariableValue(registeredNameVariable(leftHand)));
+                                    getStackOperands().push(stringFooTwo);
+
+                                }
+
+                                // if char a DIVISION */
+                                else if (line.charAt(index) == DIVISION) {
+
+                                    String rightHand = getStackOperands().pop();
+                                    String leftHand = getStackOperands().pop();
+                                    String newVariable;
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(leftHand);
+                                        tempVariables.add(leftHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(leftHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(leftHand);
+                                    }
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(rightHand);
+                                        tempVariables.add(rightHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(rightHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(rightHand);
+                                    }
+
+                                    String stringFooTwo = String.valueOf("temp" + (++tempNameIndex));
+                                    tempVariables.add(stringFooTwo);
+                                    addVariableInToDefinedVariable(stringFooTwo);
+
+                                    bufferedWriter.write("div \t" + registeredNameVariable(leftHand) + "," + registeredNameVariable(rightHand));
+                                    bufferedWriter.newLine();
+                                    bufferedWriter.write("mflo \t" + registeredNameVariable(stringFooTwo));
+                                    bufferedWriter.newLine();
+                                    setVariableValue(registeredNameVariable(stringFooTwo),
+                                            getVariableValue(registeredNameVariable(leftHand))/getVariableValue(registeredNameVariable(rightHand)));
+                                    getStackOperands().push(stringFooTwo);
+
+                                }
+
+                                // if char a ADDITION */
+                                else if (line.charAt(index) == ADDITION) {
+
+                                    String rightHand = getStackOperands().pop();
+                                    String leftHand = getStackOperands().pop();
+                                    String newVariable;
+                                    boolean isNecesserynewVariable = true; /* if left and hand side both of them a variable then
+                                    make a new variable and assign the result */
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(leftHand);
+                                        tempVariables.add(leftHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(leftHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(leftHand);
+                                    }
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(rightHand);
+                                        tempVariables.add(rightHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(rightHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(rightHand);
+                                    }
+
+
+                                    String stringFoo = String.valueOf("temp" + (++tempNameIndex));
+                                    tempVariables.add(stringFoo);
+                                    addVariableInToDefinedVariable(stringFoo);
+
+                                    bufferedWriter.write("add \t" + registeredNameVariable(stringFoo) + "," +
+                                                registeredNameVariable(leftHand) + "," +
+                                                registeredNameVariable(rightHand));
+                                    bufferedWriter.newLine();
+
+                                    setVariableValue(registeredNameVariable(stringFoo),
+                                            getVariableValue(registeredNameVariable(leftHand))+getVariableValue(registeredNameVariable(rightHand)));
+                                    getStackOperands().push(stringFoo);
+
+
+                                }
+
+                                // if char a EXTRACTION */
+                                else if (line.charAt(index) == EXTRACTION) {
+                                    String rightHand = getStackOperands().pop();
+                                    String leftHand = getStackOperands().pop();
+                                    String newVariable;
+                                    boolean isNecesserynewVariable = true; /* if left and hand side both of them a variable then
+                                    make a new variable and assign the result */
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(leftHand);
+                                        tempVariables.add(leftHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(leftHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(leftHand);
+                                    }
+
+                                    try{
+                                        /* Check This Variables is it integer */
+                                        int foo = Integer.parseInt(rightHand);
+                                        tempVariables.add(rightHand);
+                                        bufferedWriter.write("li \t" + registeredNameVariable(String.valueOf(rightHand)) + ", " + foo);
+                                        bufferedWriter.newLine();
+
+                                    }catch (NumberFormatException e){
+                                        /* Check This Variables already register */
+                                        registeredNameVariable(rightHand);
+                                    }
+
+
+                                    String stringFoo = String.valueOf("temp" + (++tempNameIndex));
+                                    tempVariables.add(stringFoo);
+                                    addVariableInToDefinedVariable(stringFoo);
+
+                                    bufferedWriter.write("sub \t" + registeredNameVariable(stringFoo) + "," +
+                                            registeredNameVariable(leftHand) + "," +
+                                            registeredNameVariable(rightHand));
+                                    bufferedWriter.newLine();
+
+                                    setVariableValue(registeredNameVariable(stringFoo),
+                                            getVariableValue(registeredNameVariable(leftHand))-getVariableValue(registeredNameVariable(rightHand)));
+                                    getStackOperands().push(stringFoo);
+
+                                }
+
+                                else {
+                                    if (line.charAt(index) != EMPTYCHARACTER) {
+
+                                        try{
+                                            int foo = Integer.parseInt(String.valueOf(line.charAt(index)));
+                                            try{
+                                                addVariableInToDefinedVariable(String.valueOf(giveTheNumber(line,index)));
+                                            }catch (MyAlreadyDefinedVariableUsageException a){}
+                                            setVariableValue(registeredNameVariable(String.valueOf(giveTheNumber(line,index))), giveTheNumber(line,index));
+                                            getStackOperands().push(String.valueOf(giveTheNumber(line,index)));
+                                            index += digitNumberOfGivenNumber(giveTheNumber(line,index));
+                                        }catch (NumberFormatException e){
+                                            registeredNameVariable(String.valueOf(line.charAt(index)));
+                                            getStackOperands().push(String.valueOf(line.charAt(index)));
+                                        }
+
+
+                                    }
+                                }
+
+                            }
+
+
+                        }
+                    }
+
+
+                    /*clear temp values */
+                    for(int i =0; i<tempVariables.size();++i){
+                        freeRegister(tempVariables.get(i));
+                    }
+                    tempVariables.clear();
+
+                    /* Next Line */
+                    line = bufferedReader.readLine();
+
+                    /* Add New Line in File */
+                    if(line != null){
+                        bufferedWriter.newLine();
+                    }
+
+                    /* Check Variable */
+                    outOfRegisterLimit();
 
                 }
 
@@ -310,26 +735,33 @@ public class PostfixFileConvertAssemblyFile {
 
             }catch (FileNotFoundException ex) {
                 System.out.println("File didn't open: " + postfixFileName);
+
             }catch (IOException ex) {
                 System.out.println("File didn't reading: " + postfixFileName);
+                foundError = true;
             }catch (MyOutOfRegisterLimitException e){
                 System.out.println("ERROR OUT OF REGISTER LIMIT");
+                foundError = true;
             }catch (MyUndefinedVariableUsageException e){
                 System.out.println("ERROR UNDEFINED VARIABLE USAGE");
+                foundError = true;
             }catch (MyDivisionByZeroException e){
                 System.out.println("ERROR DIVISION BY ZERO");
+                foundError = true;
             }finally {
                     /* Close File */
                     bufferedWriter.close();
 
-                    /* FileWriter write text files */
-                    FileWriter fileWriterEmpty = new FileWriter(fileName);
+                    if(foundError) {
+                        /* FileWriter write text files */
+                        FileWriter fileWriterEmpty = new FileWriter(fileName);
 
-                    /* Always wrap FileWriter in BufferedWriter. */
-                    BufferedWriter bufferedWriterEmpty = new BufferedWriter(fileWriterEmpty);
+                        /* Always wrap FileWriter in BufferedWriter. */
+                        BufferedWriter bufferedWriterEmpty = new BufferedWriter(fileWriterEmpty);
 
-                    /* Close File */
-                    bufferedWriterEmpty.close();
+                        /* Close File */
+                        bufferedWriterEmpty.close();
+                    }
             }
         }catch (IOException e){System.out.println("Error writing to file: "+ fileName);}
 

@@ -53,6 +53,13 @@ public class InfixFileConvertPostfixFile {
     private InfixConvertPostfix getInfixConvertPostfix(){return infixConvertPostfix;}//end getInfixConvertPostfix method
 
     /**
+     * Postfix File Name
+     *
+     * @return postfix File Name
+     */
+    public String getPostfixFileName(){return POSTFIX_FILE_NAME;}
+
+    /**
      * Infix File convert Postfix File
      *
      * @param infixFileName
