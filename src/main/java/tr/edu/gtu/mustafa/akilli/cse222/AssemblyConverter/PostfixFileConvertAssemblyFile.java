@@ -1,7 +1,6 @@
 package tr.edu.gtu.mustafa.akilli.cse222.AssemblyConverter;
 
 import tr.edu.gtu.mustafa.akilli.cse222.Exception.*;
-import tr.edu.gtu.mustafa.akilli.cse222.Registers;
 
 import java.io.*;
 import java.util.List;

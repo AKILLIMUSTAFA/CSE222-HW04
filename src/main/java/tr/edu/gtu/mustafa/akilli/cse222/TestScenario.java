@@ -8,7 +8,7 @@ import tr.edu.gtu.mustafa.akilli.cse222.PostfixConverter.InfixFileConvertPostfix
  * Hello world!
  *
  */
-public class App 
+public class TestScenario
 {
     public static void main( String[] args )
     {
